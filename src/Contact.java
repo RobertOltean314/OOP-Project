@@ -13,6 +13,7 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
+    // Getters and Setters
     public String getFirstName() {
         return firstName;
     }
@@ -61,6 +62,7 @@ public class Contact {
         return getFullName();
     }
 
+    // Getting the details of a contact
     public String getDetails() {
         return String.format("First Name: %s%nLast Name: %s%nEmail: %s%nWebsite: %s%nPhone Number: %s%n",
                 firstName, lastName, email, website, phoneNumber);

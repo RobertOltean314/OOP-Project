@@ -10,6 +10,7 @@ public class UpdateContact extends JFrame implements ActionListener {
     private JTextField firstNameField, lastNameField, emailField, websiteField, phoneNumberField;
     private JButton updateButton, cancelButton;
 
+    // Constructor initializes the UI components
     public UpdateContact(ContactHandler contactHandler) {
         this.contactHandler = contactHandler;
 
@@ -60,6 +61,7 @@ public class UpdateContact extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    // ActionListener method to handle button clicks
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == contactComboBox) {
@@ -67,14 +69,17 @@ public class UpdateContact extends JFrame implements ActionListener {
         } else if (e.getSource() == updateButton) {
             Contact selectedContact = (Contact) contactComboBox.getSelectedItem();
             if (selectedContact != null) {
+                // Update contact fields
                 selectedContact.setFirstName(firstNameField.getText());
                 selectedContact.setLastName(lastNameField.getText());
                 selectedContact.setEmail(emailField.getText());
                 selectedContact.setWebsite(websiteField.getText());
                 selectedContact.setPhoneNumber(phoneNumberField.getText());
 
+                // Call the ContactHandler to update the contact
                 contactHandler.updateContact(selectedContact);
 
+                // Close the current window and show the main frame
                 closeAndShowMainFrame();
             }
         } else if (e.getSource() == cancelButton) {
@@ -82,6 +87,7 @@ public class UpdateContact extends JFrame implements ActionListener {
         }
     }
 
+    // Display details of the selected contact
     private void displayContactDetails(Contact selectedContact) {
         if (selectedContact != null) {
             firstNameField.setText(selectedContact.getFirstName());
@@ -91,7 +97,8 @@ public class UpdateContact extends JFrame implements ActionListener {
             phoneNumberField.setText(selectedContact.getPhoneNumber());
         }
     }
-    
+
+    // Close the current window and show the main frame
     private void closeAndShowMainFrame() {
         dispose();
         new ContactManager().setVisible(true);

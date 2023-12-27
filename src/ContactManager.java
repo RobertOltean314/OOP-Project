@@ -22,7 +22,7 @@ public class ContactManager extends JFrame implements ActionListener {
         add(searchButton, gbc);
 
         gbc.gridy++;
-        manageButton = new JButton("Manage Contacts");
+        manageButton = new JButton("Edit Contacts");
         manageButton.addActionListener(this);
         add(manageButton, gbc);
 
@@ -37,17 +37,20 @@ public class ContactManager extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
+        // Set button properties
         setButtonProperties(searchButton, 0.2, 0.1);
         setButtonProperties(manageButton, 0.2, 0.1);
         setButtonProperties(exitButton, 0.2, 0.1);
     }
 
+    // Set properties for buttons (size + font)
     private void setButtonProperties(JButton button, double widthPercentage, double heightPercentage) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) (screenSize.width * widthPercentage);
         int height = (int) (screenSize.height * heightPercentage);
         button.setPreferredSize(new Dimension(width, height));
 
+        // Adjust font size based on button height
         int fontSize = Math.max((int) (height * 0.4), 12);
         button.setFont(new Font("Arial", Font.PLAIN, fontSize));
     }
@@ -55,17 +58,21 @@ public class ContactManager extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchButton) {
+            // Open the SearchContact window and dispose of the current window
             new SearchContact(new ContactHandler(), this);
             dispose();
         } else if (e.getSource() == manageButton) {
-            new ManageContacts(this);
+            // Open the EditContacts window and dispose of the current window
+            new EditContacts(this);
             dispose();
         } else if (e.getSource() == exitButton) {
+            // Exit the application
             System.exit(0);
         }
     }
 
     public static void main(String[] args) {
+        // Run the ContactManager application on the Swing event dispatch thread
         SwingUtilities.invokeLater(() -> new ContactManager());
     }
 }
