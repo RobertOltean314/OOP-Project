@@ -8,12 +8,19 @@ public class ContactHandler {
 
     // Method that's writing the contact to the CSV File
     public void addContact(Contact contact) {
-        String csvEntry = formatCSVEntry(contact); // Formatting the user input to be written as a string in the CSV
+        // Check if the phone number is unique before adding the contact
+        if (!isPhoneNumberUnique(contact.getPhoneNumber())) {
+            System.err.println("Error: Phone number must be unique. Contact not added.");
+            return;
+        }
+
+        // Continue with adding the contact if the phone number is unique
+        String csvEntry = formatCSVEntry(contact);
 
         try (FileWriter writer = new FileWriter(CSV_FILE_PATH, true);
              BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
             bufferedWriter.write(csvEntry);
-            bufferedWriter.newLine();  // Add a newline character to separate contacts
+            bufferedWriter.newLine();
             System.out.println("Contact added successfully!");
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -72,24 +79,30 @@ public class ContactHandler {
     }
 
     // Method that updates a contact
+    // Method that updates a contact
     public void updateContact(Contact selectedContact) {
+        // Check if the new phone number is unique before updating the contact
+        if (!isPhoneNumberUnique(selectedContact.getPhoneNumber(), selectedContact)) {
+            System.err.println("Error: Phone number must be unique. Contact not updated.");
+            return;
+        }
+
         try {
             File file = new File(CSV_FILE_PATH);
             List<String> lines = new ArrayList<>();
 
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
-                // Searching for a specific contact by its Phone Number
                 while ((line = reader.readLine()) != null) {
                     if (line.contains(selectedContact.getPhoneNumber())) {
-                        String updatedLine = formatCSVEntry(selectedContact); // Formatting the user's input to be String
+                        String updatedLine = formatCSVEntry(selectedContact);
                         lines.add(updatedLine);
                     } else {
                         lines.add(line);
                     }
                 }
             }
-            // Write the updated list back to the CSV
+
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 for (String line : lines) {
                     writer.write(line + System.lineSeparator());
@@ -180,4 +193,19 @@ public class ContactHandler {
         return String.format("%s,%s,%s,%s,%s", contact.getFirstName().toLowerCase(), contact.getLastName().toLowerCase(),
                 contact.getEmail().toLowerCase(), contact.getWebsite().toLowerCase(), contact.getPhoneNumber().toLowerCase());
     }
+
+    private boolean isPhoneNumberUnique(String phoneNumber) {
+        List<Contact> contacts = getAllContacts();
+        return contacts.stream().noneMatch(contact -> contact.getPhoneNumber().equals(phoneNumber));
+    }
+
+    // Check if the provided phone number is unique among existing contacts (excluding the specified contact)
+    private boolean isPhoneNumberUnique(String phoneNumber, Contact excludeContact) {
+        List<Contact> contacts = getAllContacts();
+        return contacts.stream()
+                .filter(contact -> !contact.equals(excludeContact))
+                .noneMatch(contact -> contact.getPhoneNumber().equals(phoneNumber));
+    }
 }
+
+// TODO: mesaj pentru numerele de telefon care exista deja

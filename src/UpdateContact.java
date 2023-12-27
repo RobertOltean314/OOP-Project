@@ -5,10 +5,10 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class UpdateContact extends JFrame implements ActionListener {
-    private ContactHandler contactHandler;
-    private JComboBox<Contact> contactComboBox;
-    private JTextField firstNameField, lastNameField, emailField, websiteField, phoneNumberField;
-    private JButton updateButton, cancelButton;
+    private final ContactHandler contactHandler;
+    private final JComboBox<Contact> contactComboBox;
+    private final JTextField firstNameField, lastNameField, emailField, websiteField, phoneNumberField;
+    private final JButton updateButton, cancelButton;
 
     // Constructor initializes the UI components
     public UpdateContact(ContactHandler contactHandler) {
