@@ -68,7 +68,7 @@ public class UpdateContact extends JFrame implements ActionListener {
             displayContactDetails((Contact) contactComboBox.getSelectedItem());
         } else if (e.getSource() == updateButton) {
             Contact selectedContact = (Contact) contactComboBox.getSelectedItem();
-            if (selectedContact != null) {
+            if (selectedContact != null && validateInput()) {
                 // Update contact fields
                 selectedContact.setFirstName(firstNameField.getText());
                 selectedContact.setLastName(lastNameField.getText());
@@ -76,16 +76,62 @@ public class UpdateContact extends JFrame implements ActionListener {
                 selectedContact.setWebsite(websiteField.getText());
                 selectedContact.setPhoneNumber(phoneNumberField.getText());
 
-                // Call the ContactHandler to update the contact
-                contactHandler.updateContact(selectedContact);
-
-                // Close the current window and show the main frame
-                closeAndShowMainFrame();
+                try {
+                    // Call the ContactHandler to update the contact
+                    contactHandler.updateContact(selectedContact);
+                    // Close the current window and show the main frame
+                    closeAndShowMainFrame();
+                } catch (Exception ex) {
+                    // Handle exception (e.g., display an error message)
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error updating contact: " + ex.getMessage(),
+                            "Update Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } else if (e.getSource() == cancelButton) {
-            closeAndShowMainFrame();
+            // Confirm cancellation
+            int result = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel?",
+                    "Confirm Cancel", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                // Clear fields, close the current window, and show the main frame
+                clearFields();
+                closeAndShowMainFrame();
+            }
         }
     }
+
+    // Clear input fields
+    private void clearFields() {
+        firstNameField.setText("");
+        lastNameField.setText("");
+        emailField.setText("");
+        websiteField.setText("");
+        phoneNumberField.setText("");
+    }
+
+    // Close the current window and show the main frame
+    private void closeAndShowMainFrame() {
+        Frame[] frames = Frame.getFrames();
+
+        for (Frame frame : frames) {
+            if (frame instanceof ContactManager) {
+                // Dispose only if it's not the main frame
+                if (frame != this) {
+                    dispose();
+                }
+                frame.setVisible(true);
+            }
+        }
+    }
+
+
+    // Validate input fields (you can customize this method based on your requirements)
+    private boolean validateInput() {
+        // Add your validation logic here
+        // For example, check if required fields are not empty, if email is in a valid format, etc.
+        return true;
+    }
+
 
     // Display details of the selected contact
     private void displayContactDetails(Contact selectedContact) {
@@ -98,9 +144,4 @@ public class UpdateContact extends JFrame implements ActionListener {
         }
     }
 
-    // Close the current window and show the main frame
-    private void closeAndShowMainFrame() {
-        dispose();
-        new ContactManager().setVisible(true);
-    }
 }

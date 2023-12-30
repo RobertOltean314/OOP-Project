@@ -1,17 +1,36 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactHandler {
 
-    private static final String CSV_FILE_PATH = "contacts.csv";
+    private final String CSV_FILE_PATH = "contacts.csv";
 
     // Method that's writing the contact to the CSV File
     public void addContact(Contact contact) {
         // Check if the phone number is unique before adding the contact
         if (!isPhoneNumberUnique(contact.getPhoneNumber())) {
-            System.err.println("Error: Phone number must be unique. Contact not added.");
-            return;
+            Object[] options = {"Cancel", "Update"};
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    "Error: This phone number already exists in your agenda. Do you want to update it?",
+                    "Duplicate Phone Number",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+
+            if (choice == JOptionPane.YES_OPTION) {
+                // User clicked "Cancel", return to the main page or perform necessary action
+                // For example: new ContactManager().setVisible(true);
+                new ContactManager().setVisible(true);
+            } else if (choice == JOptionPane.NO_OPTION) {
+                // User clicked "Update", open the Update window or perform necessary action
+                new UpdateContact(this).setVisible(true);
+            }
         }
 
         // Continue with adding the contact if the phone number is unique
@@ -27,6 +46,7 @@ public class ContactHandler {
             System.err.println("Error adding contact to CSV file");
         }
     }
+
 
     // Reading all contacts from the CSV and return them as a list
     public List<Contact> getAllContacts() {
@@ -78,7 +98,6 @@ public class ContactHandler {
         }
     }
 
-    // Method that updates a contact
     // Method that updates a contact
     public void updateContact(Contact selectedContact) {
         // Check if the new phone number is unique before updating the contact
