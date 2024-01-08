@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ContactManager extends JFrame implements ActionListener {
-    private JButton searchButton;
-    private JButton manageButton;
-    private JButton exitButton;
+    private final JButton searchButton;
+    private final JButton manageButton;
+    private final JButton exitButton;
 
     public ContactManager() {
         setLayout(new GridBagLayout());
@@ -73,6 +73,6 @@ public class ContactManager extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         // Run the ContactManager application on the Swing event dispatch thread
-        SwingUtilities.invokeLater(() -> new ContactManager());
+        SwingUtilities.invokeLater(ContactManager::new);
     }
 }

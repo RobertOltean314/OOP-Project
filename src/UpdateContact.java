@@ -80,7 +80,7 @@ public class UpdateContact extends JFrame implements ActionListener {
                     // Call the ContactHandler to update the contact
                     contactHandler.updateContact(selectedContact);
                     // Close the current window and show the main frame
-                    closeAndShowMainFrame();
+                    dispose();
                 } catch (Exception ex) {
                     // Handle exception (e.g., display an error message)
                     ex.printStackTrace();
@@ -95,7 +95,8 @@ public class UpdateContact extends JFrame implements ActionListener {
             if (result == JOptionPane.YES_OPTION) {
                 // Clear fields, close the current window, and show the main frame
                 clearFields();
-                closeAndShowMainFrame();
+                dispose();
+                new ContactManager().setVisible(true);
             }
         }
     }
@@ -108,22 +109,6 @@ public class UpdateContact extends JFrame implements ActionListener {
         websiteField.setText("");
         phoneNumberField.setText("");
     }
-
-    // Close the current window and show the main frame
-    private void closeAndShowMainFrame() {
-        Frame[] frames = Frame.getFrames();
-
-        for (Frame frame : frames) {
-            if (frame instanceof ContactManager) {
-                // Dispose only if it's not the main frame
-                if (frame != this) {
-                    dispose();
-                }
-                frame.setVisible(true);
-            }
-        }
-    }
-
 
     // Validate input fields (you can customize this method based on your requirements)
     private boolean validateInput() {

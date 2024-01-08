@@ -75,14 +75,10 @@ public class AddContact extends JFrame implements ActionListener {
             );
             // Calling the addContact method from contact Handler class
             contactHandler.addContact(newContact);
-            closeAndShowMainFrame();
+            dispose();
         } else if (e.getSource() == cancelButton) {
-            closeAndShowMainFrame();
+            dispose();
+            contactManager.setVisible(true);
         }
-    }
-    // Closing the window and open the main Frame
-    private void closeAndShowMainFrame() {
-        dispose();
-        contactManager.setVisible(true);
     }
 }

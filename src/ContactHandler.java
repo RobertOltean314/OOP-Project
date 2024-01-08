@@ -9,6 +9,29 @@ public class ContactHandler {
 
     // Method that's writing the contact to the CSV File
     public void addContact(Contact contact) {
+        // Validate email pattern
+        if (!isValidEmail(contact.getEmail())) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error: Invalid email format.",
+                    "Invalid Input",
+                    JOptionPane.ERROR_MESSAGE
+            );
+
+            return;
+        }
+
+        // Validate phone number length
+        if (contact.getPhoneNumber().length() != 10) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error: Invalid phone number",
+                    "Invalid Input",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
         // Check if the phone number is unique before adding the contact
         if (!isPhoneNumberUnique(contact.getPhoneNumber())) {
             Object[] options = {"Cancel", "Update"};
@@ -25,15 +48,25 @@ public class ContactHandler {
 
             if (choice == JOptionPane.YES_OPTION) {
                 // User clicked "Cancel", return to the main page or perform necessary action
-                // For example: new ContactManager().setVisible(true);
                 new ContactManager().setVisible(true);
             } else if (choice == JOptionPane.NO_OPTION) {
                 // User clicked "Update", open the Update window or perform necessary action
                 new UpdateContact(this).setVisible(true);
             }
+            return;
         }
 
-        // Continue with adding the contact if the phone number is unique
+        // Validate website pattern (you can adjust the pattern as needed)
+        if (!isValidWebsite(contact.getWebsite())) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error: Invalid website format.",
+                    "Invalid Input",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+        // Continue with adding the contact if all validations pass
         String csvEntry = formatCSVEntry(contact);
 
         try (FileWriter writer = new FileWriter(CSV_FILE_PATH, true);
@@ -46,7 +79,6 @@ public class ContactHandler {
             System.err.println("Error adding contact to CSV file");
         }
     }
-
 
     // Reading all contacts from the CSV and return them as a list
     public List<Contact> getAllContacts() {
@@ -225,6 +257,16 @@ public class ContactHandler {
                 .filter(contact -> !contact.equals(excludeContact))
                 .noneMatch(contact -> contact.getPhoneNumber().equals(phoneNumber));
     }
-}
 
-// TODO: mesaj pentru numerele de telefon care exista deja
+    // Validation check for email pattern
+    private boolean isValidEmail(String email) {
+        // You can use a more sophisticated email validation pattern if needed
+        return email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
+    }
+
+    // Validation check for website pattern
+    private boolean isValidWebsite(String website) {
+        // You can use a more sophisticated website validation pattern if needed
+        return website.matches("^www\\.[a-zA-Z0-9]+\\.[a-zA-Z]{2,}$");
+    }
+}
