@@ -8,7 +8,7 @@ public class ContactHandler {
     private final String CSV_FILE_PATH = "contacts.csv";
 
     // Method that's writing the contact to the CSV File
-    public void addContact(Contact contact) {
+    public void addContact(Contact contact) throws IOException {
         // Validate email pattern
         if (!isValidEmail(contact.getEmail())) {
             JOptionPane.showMessageDialog(
@@ -69,14 +69,17 @@ public class ContactHandler {
         // Continue with adding the contact if all validations pass
         String csvEntry = formatCSVEntry(contact);
 
-        try (FileWriter writer = new FileWriter(CSV_FILE_PATH, true);
-             BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+        try (FileWriter writer = new FileWriter(CSV_FILE_PATH, true)) {
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
             bufferedWriter.write(csvEntry);
             bufferedWriter.newLine();
-            System.out.println("Contact added successfully!");
+            bufferedWriter.flush(); // Flush changes
+            bufferedWriter.close(); // Close the writer
+            System.out.println("Contact added successfully");
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.err.println("Error adding contact to CSV file");
+            System.err.println("Error adding contact to CSV file: " + ex.getMessage());
+
         }
     }
 
@@ -89,15 +92,24 @@ public class ContactHandler {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] contactData = line.split(",");
-                Contact contact = new Contact(contactData[0], contactData[1], contactData[2], contactData[3], contactData[4]);
-                contacts.add(contact);
+
+                // Check if the array has enough elements to create a Contact
+                if (contactData.length >= 5) {
+                    Contact contact = new Contact(contactData[0], contactData[1], contactData[2], contactData[3], contactData[4]);
+                    contacts.add(contact);
+                } else {
+                    // Handle the case where the line doesn't have enough fields
+                    System.err.println("Error: Invalid data in CSV file. Skipping line: " + line);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error reading CSV file");
         }
+
         return contacts;
     }
+
 
     // Method that deletes a contact
     public void deleteContact(Contact contactToDelete) {
@@ -132,12 +144,6 @@ public class ContactHandler {
 
     // Method that updates a contact
     public void updateContact(Contact selectedContact) {
-        // Check if the new phone number is unique before updating the contact
-        if (!isPhoneNumberUnique(selectedContact.getPhoneNumber(), selectedContact)) {
-            System.err.println("Error: Phone number must be unique. Contact not updated.");
-            return;
-        }
-
         try {
             File file = new File(CSV_FILE_PATH);
             List<String> lines = new ArrayList<>();
@@ -220,11 +226,11 @@ public class ContactHandler {
     // Method that checks a specific criteria
     private boolean matchesCriteria(String[] contactData, String searchCriteria, String searchValue) {
         return switch (searchCriteria) {
-            case "First Name" -> contactData[0].equals(searchValue);
-            case "Last Name" -> contactData[1].equals(searchValue);
-            case "Email" -> contactData[2].equals(searchValue);
-            case "Website" -> contactData[3].equals(searchValue);
-            case "Phone Number" -> contactData[4].equals(searchValue);
+            case "First Name" -> contactData[0].equalsIgnoreCase(searchValue);
+            case "Last Name" -> contactData[1].equalsIgnoreCase(searchValue);
+            case "Email" -> contactData[2].equalsIgnoreCase(searchValue);
+            case "Website" -> contactData[3].equalsIgnoreCase(searchValue);
+            case "Phone Number" -> contactData[4].equalsIgnoreCase(searchValue);
             default -> false;
         };
     }
@@ -248,14 +254,6 @@ public class ContactHandler {
     private boolean isPhoneNumberUnique(String phoneNumber) {
         List<Contact> contacts = getAllContacts();
         return contacts.stream().noneMatch(contact -> contact.getPhoneNumber().equals(phoneNumber));
-    }
-
-    // Check if the provided phone number is unique among existing contacts (excluding the specified contact)
-    private boolean isPhoneNumberUnique(String phoneNumber, Contact excludeContact) {
-        List<Contact> contacts = getAllContacts();
-        return contacts.stream()
-                .filter(contact -> !contact.equals(excludeContact))
-                .noneMatch(contact -> contact.getPhoneNumber().equals(phoneNumber));
     }
 
     // Validation check for email pattern

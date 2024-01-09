@@ -127,6 +127,9 @@ public class SearchContact extends JFrame implements ActionListener {
 
     // Handle double-click on the result text area to show contact details
     private void handleDoubleClickOnResultTextArea(MouseEvent e) {
+
+        System.out.println("Double-click detected!");
+
         int caretPosition = resultTextArea.viewToModel2D(e.getPoint());
         try {
             // Get the start and end positions of the clicked line

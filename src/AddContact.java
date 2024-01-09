@@ -2,13 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class AddContact extends JFrame implements ActionListener {
     // Class members
-    private JButton addButton, cancelButton;
-    private JTextField firstNameField, lastNameField, emailField, websiteField, phoneNumberField;
-    private ContactHandler contactHandler;
-    private ContactManager contactManager;
+    private final JButton addButton, cancelButton;
+    private final JTextField firstNameField, lastNameField, emailField, websiteField, phoneNumberField;
+    private final ContactHandler contactHandler;
+    private final ContactManager contactManager;
 
     // Function that adds a new contact to the CSV file
     public AddContact(ContactHandler contactHandler, ContactManager contactManager) {
@@ -74,8 +75,13 @@ public class AddContact extends JFrame implements ActionListener {
                     phoneNumberField.getText()
             );
             // Calling the addContact method from contact Handler class
-            contactHandler.addContact(newContact);
+            try {
+                contactHandler.addContact(newContact);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             dispose();
+            contactManager.setVisible(true);
         } else if (e.getSource() == cancelButton) {
             dispose();
             contactManager.setVisible(true);

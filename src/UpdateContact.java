@@ -68,7 +68,7 @@ public class UpdateContact extends JFrame implements ActionListener {
             displayContactDetails((Contact) contactComboBox.getSelectedItem());
         } else if (e.getSource() == updateButton) {
             Contact selectedContact = (Contact) contactComboBox.getSelectedItem();
-            if (selectedContact != null && validateInput()) {
+            if (selectedContact != null) {
                 // Update contact fields
                 selectedContact.setFirstName(firstNameField.getText());
                 selectedContact.setLastName(lastNameField.getText());
@@ -81,6 +81,7 @@ public class UpdateContact extends JFrame implements ActionListener {
                     contactHandler.updateContact(selectedContact);
                     // Close the current window and show the main frame
                     dispose();
+                    ContactManager contactManager = new ContactManager();
                 } catch (Exception ex) {
                     // Handle exception (e.g., display an error message)
                     ex.printStackTrace();
@@ -109,14 +110,6 @@ public class UpdateContact extends JFrame implements ActionListener {
         websiteField.setText("");
         phoneNumberField.setText("");
     }
-
-    // Validate input fields (you can customize this method based on your requirements)
-    private boolean validateInput() {
-        // Add your validation logic here
-        // For example, check if required fields are not empty, if email is in a valid format, etc.
-        return true;
-    }
-
 
     // Display details of the selected contact
     private void displayContactDetails(Contact selectedContact) {
