@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,11 +25,11 @@ public class SearchContact extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
 
         // Create a panel to hold the input fields and search results
-        JPanel contentPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        JPanel contentPanel = new JPanel(new GridLayout(3, 2, 10, 10));
 
         // Create labels, combo box, and text field for search criteria and value
         JLabel searchCriteriaLabel = new JLabel("Search Criteria:");
-        JLabel searchValueLabel = new JLabel("Search Value:");
+        JLabel searchValueLabel = new JLabel("Search:");
 
         String[] searchOptions = {"Email", "Website", "Phone Number", "First Name", "Last Name"};
         searchCriteriaComboBox = new JComboBox<>(searchOptions);
@@ -38,9 +37,21 @@ public class SearchContact extends JFrame implements ActionListener {
         searchButton = new JButton("Search");
         searchButton.addActionListener(this);
 
+        // Create a label and entry box for displaying data
+        JLabel infoLabel = new JLabel("Info:");
+        JTextField infoEntryField = new JTextField();
+        infoEntryField.setEditable(false);
+
+        // Set empty border to remove the default border of text fields
+        searchValueField.setBorder(BorderFactory.createEmptyBorder());
+        infoEntryField.setBorder(BorderFactory.createEmptyBorder());
+
         // Create a text area to display search results
         resultTextArea = new JTextArea();
         resultTextArea.setEditable(false);
+
+        // Set the preferred size of the text area
+        resultTextArea.setPreferredSize(new Dimension(400, 200));
 
         // Add a double click listener to the text area for showing contact details
         resultTextArea.addMouseListener(new MouseAdapter() {
@@ -59,25 +70,27 @@ public class SearchContact extends JFrame implements ActionListener {
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(this);
 
-        // Add components to the content panel and button panel
+        // Add components to the frame
         contentPanel.add(searchCriteriaLabel);
         contentPanel.add(searchCriteriaComboBox);
         contentPanel.add(searchValueLabel);
         contentPanel.add(searchValueField);
-        contentPanel.add(scrollPane);
+        contentPanel.add(infoLabel);
+        contentPanel.add(infoEntryField);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.add(searchButton);
         buttonPanel.add(cancelButton);
 
         // Add panels to the frame
-        add(contentPanel, BorderLayout.CENTER);
+        add(contentPanel, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Set the frame properties
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setTitle("Search Contact");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Make the frame fullscreen
         setVisible(true);
     }
 
@@ -106,29 +119,6 @@ public class SearchContact extends JFrame implements ActionListener {
         resultTextArea.setText(String.join("\n", formattedNames));
     }
 
-    // Show detailed information about a contact on double-click
-    private void showContactDetails(String selectedText) {
-        // Create a new ContactHandler to fetch details
-        ContactHandler contactHandler = new ContactHandler();
-
-        // Get Contact details based on the selected text
-        Contact contact = contactHandler.getContactDetails(selectedText);
-
-        // Display details in a dialog
-        if (contact != null) {
-            JOptionPane.showMessageDialog(this, formatContactDetails(contact), "Contact Details", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    // Format contact details for display
-    private String formatContactDetails(Contact contact) {
-        return "First Name: " + contact.getFirstName() + "\n" +
-                "Last Name: " + contact.getLastName() + "\n" +
-                "Email: " + contact.getEmail() + "\n" +
-                "Website: " + contact.getWebsite() + "\n" +
-                "Phone Number: " + contact.getPhoneNumber();
-    }
-
     // Close the window and show the main ContactManager window
     private void closeAndShowMainFrame() {
         dispose();
@@ -140,12 +130,12 @@ public class SearchContact extends JFrame implements ActionListener {
         int caretPosition = resultTextArea.viewToModel2D(e.getPoint());
         try {
             // Get the start and end positions of the clicked line
-            int rowStart = Utilities.getRowStart(resultTextArea, caretPosition);
-            int rowEnd = Utilities.getRowEnd(resultTextArea, caretPosition);
+            int rowStart = resultTextArea.getLineStartOffset(resultTextArea.getLineOfOffset(caretPosition));
+            int rowEnd = resultTextArea.getLineEndOffset(resultTextArea.getLineOfOffset(caretPosition));
             // Extract the selected text
             String selectedText = resultTextArea.getText().substring(rowStart, rowEnd);
             // Show detailed information about the contact
-            showContactDetails(selectedText);
+            contactHandler.getContactDetails(selectedText);
         } catch (BadLocationException ex) {
             ex.printStackTrace();
         }
