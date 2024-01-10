@@ -7,6 +7,27 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * SearchContact.java
+ * <p>
+ * Descriere:
+ * Această clasă reprezintă fereastra de căutare a contactelor în cadrul aplicației de gestionare a contactelor.
+ * Utilizatorul poate selecta un criteriu de căutare (Email, Website, Număr de telefon, Prenume, Nume) și introduce o valoare într-un câmp de căutare.
+ * După apăsarea butonului "Search", rezultatele căutării sunt afișate într-o zonă de text.
+ * <p>
+ * Metode principale:
+ * <p>
+ * - SearchContact(ContactHandler contactHandler, ContactManager contactManager): Constructorul clasei care inițializează fereastra și componentele de căutare.
+ * <p>
+ * - actionPerformed(ActionEvent e): Implementare a interfeței ActionListener pentru gestionarea evenimentelor de acțiune (butonul de căutare și butonul de anulare).
+ * <p>
+ * - searchContact(): Metodă privată pentru efectuarea căutării de contacte în funcție de criteriu și valoare.
+ * <p>
+ * - closeAndShowMainFrame(): Metodă privată pentru închiderea ferestrei și afișarea ferestrei principale de gestionare a contactelor.
+ * <p>
+ * - handleDoubleClickOnResultTextArea(MouseEvent e): Metodă privată pentru gestionarea dublu-clicului pe zona de text cu rezultate pentru afișarea detaliilor contactului.
+ */
+
 public class SearchContact extends JFrame implements ActionListener {
     private JComboBox<String> searchCriteriaComboBox;
     private JTextField searchValueField;

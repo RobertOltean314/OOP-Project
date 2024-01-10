@@ -4,6 +4,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * AddContact.java
+ * <p>
+ * Descriere:
+ * <p>
+ * Această clasă reprezintă fereastra de adăugare a unui nou contact în aplicația de gestionare a contactelor.
+ * Utilizatorul poate introduce informațiile despre un contact, precum numele, prenumele, email-ul, website-ul și numărul de telefon.
+ * După introducerea datelor, utilizatorul poate apăsa butonul "Add" pentru a adăuga contactul într-un fișier CSV.
+ * În caz de anulare, utilizatorul poate apăsa butonul "Cancel" pentru a închide fereastra fără a adăuga un contact.
+ * <p>
+ * Metode principale:
+ * <p>
+ * - AddContact(ContactHandler contactHandler, ContactManager contactManager): Constructorul clasei care inițializează interfața grafică.
+ * <p>
+ * - actionPerformed(ActionEvent e): Metoda apelată atunci când sunt efectuate acțiuni asupra butoanelor.
+ * <p>
+ * - Dacă butonul "Add" este apăsat, creează un nou obiect Contact și apelează metoda addContact din clasa ContactHandler.
+ * <p>
+ * - Dacă butonul "Cancel" este apăsat, închide fereastra de adăugare a contactului.
+ */
+
 public class AddContact extends JFrame implements ActionListener {
     // Class members
     private final JButton addButton, cancelButton;

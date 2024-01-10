@@ -3,6 +3,29 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * ContactManager.java
+ * <p>
+ * Descriere:
+ * <p>
+ * Această clasă reprezintă fereastra principală a aplicației de gestionare a contactelor.
+ * Utilizatorul poate accesa funcționalități precum căutarea și editarea contactelor sau oprirea aplicației.
+ * Interfața grafică este alcătuită din trei butoane: "Search Contacts", "Edit Contacts" și "Exit".
+ * Fiecare buton are dimensiuni ajustate în funcție de dimensiunile ecranului și are un font proporțional.
+ * <p>
+ * Metode principale:
+ * <p>
+ * - ContactManager(): Constructorul clasei care inițializează fereastra și butoanele principale ale aplicației.
+ * <p>
+ * - setButtonProperties(JButton button, double widthPercentage, double heightPercentage): Metodă privată pentru a seta proprietățile butoanelor,
+ * <p>
+ * precum dimensiunea și fontul, în funcție de dimensiunile ecranului.
+ * <p>
+ * - actionPerformed(ActionEvent e): Metodă apelată la acțiuni asupra butoanelor, care deschide ferestrele corespunzătoare și închide fereastra curentă.
+ * <p>
+ * - main(String[] args): Metodă statică pentru a rula aplicația `ContactManager` pe firul de dispecerare al evenimentelor Swing.
+ */
+
 public class ContactManager extends JFrame implements ActionListener {
     private final JButton searchButton;
     private final JButton manageButton;

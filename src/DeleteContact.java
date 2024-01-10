@@ -6,6 +6,28 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * DeleteContact.java
+ * <p>
+ * Descriere:
+ * Această clasă reprezintă fereastra de ștergere a unui contact în cadrul aplicației de gestionare a contactelor.
+ * Utilizatorul poate vedea o listă cu toate contactele și poate șterge un contact selectat prin dublu click sau sa apese pe butonul "Cancel".
+ * Fereastra dispune de o listă JList pentru afișarea contactelor și un buton "Cancel" pentru anularea operației.
+ * La dublu clic pe un contact, se afișează o fereastră de confirmare, iar în caz afirmativ, contactul este șters și fereastra se redeschide.
+ * Fereastra se închide la apăsarea butonului "Cancel" și revine la fereastra principală a aplicației.
+ * <p>
+ * Metode principale:
+ * <p>
+ * - DeleteContact(ContactHandler contactHandler, ContactManager contactManager): Constructorul clasei care inițializează fereastra și componentele.
+ * <p>
+ * - actionPerformed(ActionEvent e): Implementare a interfeței ActionListener pentru gestionarea evenimentelor de acțiune.
+ * <p>
+ * - handleContactDoubleClick(): Metodă privată pentru gestionarea dublu-clicului asupra unui contact în listă.
+ * <p>
+ * - closeAndShowMainFrame(): Metodă privată pentru închiderea ferestrei și revenirea la fereastra principală a aplicației.
+ */
+
+
 public class DeleteContact extends JFrame implements ActionListener {
     private ContactHandler contactHandler;
     private JList<Contact> contactList;

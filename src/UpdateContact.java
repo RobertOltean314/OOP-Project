@@ -4,6 +4,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * UpdateContact.java
+ * <p>
+ * Descriere:
+ * Această clasă reprezintă fereastra de actualizare a contactelor în cadrul aplicației de gestionare a contactelor.
+ * Utilizatorul poate selecta un contact dintr-o listă și actualiza detaliile acestuia (Prenume, Nume, Email, Website, Număr de telefon).
+ * După actualizare, utilizatorul poate apăsa pe butonul "Update" pentru a confirma modificările sau pe butonul "Cancel" pentru a anula operația.
+ * <p>
+ * Metode principale:
+ * <p>
+ * - UpdateContact(ContactHandler contactHandler): Constructorul clasei care inițializează fereastra și componentele de actualizare.
+ * <p>
+ * - actionPerformed(ActionEvent e): Implementare a interfeței ActionListener pentru gestionarea evenimentelor de acțiune (selectarea contactului, apăsarea butoanelor "Update" și "Cancel").
+ * <p>
+ * - clearFields(): Metodă privată pentru ștergerea conținutului din câmpurile de introducere.
+ * <p>
+ * - displayContactDetails(Contact selectedContact): Metodă privată pentru afișarea detaliilor contactului selectat în câmpurile de introducere.
+ */
+
 public class UpdateContact extends JFrame implements ActionListener {
     private final ContactHandler contactHandler;
     private final JComboBox<Contact> contactComboBox;

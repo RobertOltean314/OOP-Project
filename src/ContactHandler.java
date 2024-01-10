@@ -3,6 +3,46 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ContactHandler.java
+ * <p>
+ * Descriere:
+ * <p>
+ * Această clasă gestionează manipularea contactelor în cadrul aplicației de gestionare a contactelor.
+ * Ea oferă funcționalități precum adăugarea, ștergerea, actualizarea și căutarea contactelor într-un fișier CSV.
+ * Clasa se ocupă, de asemenea, de validarea datelor de contact, inclusiv verificarea formatului de email, website si a numărului de telefon.
+ * <p>
+ * Metode principale:
+ * <p>
+ * - addContact(Contact contact): Adaugă un nou contact în fișierul CSV după ce validează informațiile de contact.
+ * <p>
+ * - getAllContacts(): Returnează o listă cu toate contactele citite din fișierul CSV.
+ * <p>
+ * - deleteContact(Contact contactToDelete): Șterge un contact specificat din fișierul CSV.
+ * <p>
+ * - updateContact(Contact selectedContact): Actualizează informațiile unui contact specificat în fișierul CSV.
+ * <p>
+ * - searchContactFormattedNames(String searchCriteria, String searchValue): Caută contacte în funcție de criterii specifice și returnează numele formatate.
+ * <p>
+ * - getContactDetails(String fullName): Returnează detaliile unui contact în funcție de numele complet specificat.
+ * <p>
+ * Metode de validare:
+ * <p>
+ * - isValidEmail(String email): Verifică dacă un șir de caractere reprezintă un format de email valid.
+ * <p>
+ * - isValidWebsite(String website): Verifică dacă un șir de caractere reprezintă un format de website valid.
+ * <p>
+ * - isPhoneNumberUnique(String phoneNumber): Verifică dacă un număr de telefon este unic în lista de contacte.
+ * <p>
+ * Metode ajutătoare:
+ * <p>
+ * - formatName(String firstName, String lastName): Formatează numele într-un stil cu prima literă mare și restul litere mici.
+ * <p>
+ * - capitalize(String str): Capitalizează primul caracter al unui șir și transformă restul literelor în minuscule.
+ * <p>
+ * - formatCSVEntry(Contact contact): Formatează un contact pentru a fi scris într-un fișier CSV.
+ */
+
 public class ContactHandler {
 
     private final String CSV_FILE_PATH = "contacts.csv";

@@ -3,6 +3,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * EditContacts.java
+ * <p>
+ * Descriere:
+ * Această clasă reprezintă fereastra de gestionare a contactelor în cadrul aplicației de gestionare a contactelor.
+ * Utilizatorul poate accesa funcționalitățile de adăugare, actualizare și ștergere a contactelor, sau poate reveni la fereastra principală.
+ * Fereastra conține patru butoane: "Add Contact", "Update Contact", "Delete Contact" și "Back".
+ * Fiecare buton are dimensiuni ajustate în funcție de dimensiunile ecranului și are un font proporțional.
+ * <p>
+ * Metode principale:
+ * <p>
+ * - EditContacts(ContactManager contactManager): Constructorul clasei care inițializează fereastra și butoanele de gestionare a contactelor.
+ * <p>
+ * - setButtonSize(JButton button, double widthPercentage, double heightPercentage): Metodă privată pentru a seta dimensiunea și fontul butoanelor în funcție de dimensiunile ecranului.
+ * <p>
+ * - actionPerformed(ActionEvent e): Implementare a interfeței ActionListener pentru gestionarea evenimentelor de acțiune.
+ */
+
 public class EditContacts extends JFrame implements ActionListener {
     private JButton addButton;
     private JButton updateButton;
