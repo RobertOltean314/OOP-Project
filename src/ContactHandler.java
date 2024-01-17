@@ -113,7 +113,7 @@ public class ContactHandler {
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
             bufferedWriter.write(csvEntry);
             bufferedWriter.newLine();
-            bufferedWriter.flush(); // Flush changes
+            bufferedWriter.flush(); // Flush changes to ensure everything is saved
             bufferedWriter.close(); // Close the writer
             System.out.println("Contact added successfully");
         } catch (IOException ex) {

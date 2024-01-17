@@ -49,7 +49,7 @@ public class DeleteContact extends JFrame implements ActionListener {
         contactList = new JList<>(contacts.toArray(new Contact[0]));
         contactList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // Add a double-click listener to the contact list
+        // Add a double click listener to the contact list
         contactList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

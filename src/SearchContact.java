@@ -131,7 +131,7 @@ public class SearchContact extends JFrame implements ActionListener {
     // Perform the contact search based on criteria and value
     private void searchContact() {
         String searchCriteria = (String) searchCriteriaComboBox.getSelectedItem();
-        String searchValue = searchValueField.getText();
+        String searchValue = searchValueField.getText();;
 
         // Get formatted names of contacts that match the search criteria
         List<String> formattedNames = contactHandler.searchContactFormattedNames(searchCriteria, searchValue);
@@ -151,17 +151,17 @@ public class SearchContact extends JFrame implements ActionListener {
 
         System.out.println("Double-click detected!");
 
-        int caretPosition = resultTextArea.viewToModel2D(e.getPoint());
-        try {
-            // Get the start and end positions of the clicked line
-            int rowStart = resultTextArea.getLineStartOffset(resultTextArea.getLineOfOffset(caretPosition));
-            int rowEnd = resultTextArea.getLineEndOffset(resultTextArea.getLineOfOffset(caretPosition));
-            // Extract the selected text
-            String selectedText = resultTextArea.getText().substring(rowStart, rowEnd);
-            // Show detailed information about the contact
-            contactHandler.getContactDetails(selectedText);
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
-        }
+//        int caretPosition = resultTextArea.viewToModel2D(e.getPoint());
+//        try {
+//            // Get the start and end positions of the clicked line
+//            int rowStart = resultTextArea.getLineStartOffset(resultTextArea.getLineOfOffset(caretPosition));
+//            int rowEnd = resultTextArea.getLineEndOffset(resultTextArea.getLineOfOffset(caretPosition));
+//            // Extract the selected text
+//            String selectedText = resultTextArea.getText().substring(rowStart, rowEnd);
+//            // Show detailed information about the contact
+//            contactHandler.getContactDetails(selectedText);
+//        } catch (BadLocationException ex) {
+//            ex.printStackTrace();
+//        }
     }
 }
